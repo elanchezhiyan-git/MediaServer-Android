@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.elan.mediaserver.android.ui.common.NavigationMenuItem
+import com.elan.mediaserver.android.ui.common.NavigationItem
 import com.elan.mediaserver.android.ui.views.main.MainView
 import kotlinx.coroutines.CoroutineScope
 
@@ -27,7 +27,7 @@ fun CustomDrawer(
     navController: NavHostController
 ) {
 
-    val currentSelectedItemId = remember { mutableStateOf(NavigationMenuItem.Home.name) }
+    val currentSelectedItemId = remember { mutableStateOf(NavigationItem.HOME.name) }
     val screenWidth = LocalContext.current.resources.displayMetrics.widthPixels/4
 
     ModalNavigationDrawer(
@@ -41,14 +41,39 @@ fun CustomDrawer(
                 Text("E - Media Server", modifier = Modifier.padding(16.dp))
                 Divider()
                 Column (Modifier.padding(0.dp,8.dp)) {
-                    CustomNavigationDrawerItem(navController,scope,drawerState,currentSelectedItemId, NavigationMenuItem.Home)
-                    CustomNavigationDrawerItem(navController,scope,drawerState,currentSelectedItemId, NavigationMenuItem.Favourites)
+                    CustomNavigationDrawerItem(
+                        scope,
+                        drawerState,
+                        currentSelectedItemId,
+                        NavigationItem.HOME
+                    )
+                    CustomNavigationDrawerItem(
+                        scope,
+                        drawerState,
+                        currentSelectedItemId,
+                        NavigationItem.FAVOURITES
+                    )
                 }
                 Divider()
                 Column (Modifier.padding(0.dp,16.dp)) {
-                    CustomNavigationDrawerItem(navController,scope,drawerState,currentSelectedItemId, NavigationMenuItem.Movies)
-                    CustomNavigationDrawerItem(navController,scope,drawerState,currentSelectedItemId, NavigationMenuItem.Music)
-                    CustomNavigationDrawerItem(navController,scope,drawerState,currentSelectedItemId, NavigationMenuItem.Downloads)
+                    CustomNavigationDrawerItem(
+                        scope,
+                        drawerState,
+                        currentSelectedItemId,
+                        NavigationItem.MOVIES
+                    )
+                    CustomNavigationDrawerItem(
+                        scope,
+                        drawerState,
+                        currentSelectedItemId,
+                        NavigationItem.MUSIC
+                    )
+                    CustomNavigationDrawerItem(
+                        scope,
+                        drawerState,
+                        currentSelectedItemId,
+                        NavigationItem.DOWNLOADS
+                    )
                 }
             }
         },

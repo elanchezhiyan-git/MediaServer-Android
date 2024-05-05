@@ -1,12 +1,6 @@
 package com.elan.mediaserver.android.ui.views.main
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,7 +11,10 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
@@ -25,8 +22,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.elan.mediaserver.android.R
 import com.elan.mediaserver.android.ui.common.CallNavigationMenuItemComposable
-import com.elan.mediaserver.android.ui.common.NavigationMenuItem
+import com.elan.mediaserver.android.ui.common.GlobalNavigationController
+import com.elan.mediaserver.android.ui.common.NavigationItem
+import com.elan.mediaserver.android.ui.common.NavigationItem.NavigationType
 import com.elan.mediaserver.android.ui.components.GetBottomAppBar
+import com.elan.mediaserver.android.ui.components.GetSubMenuTopAppBar
 import com.elan.mediaserver.android.ui.components.GetTopAppBar
 import kotlinx.coroutines.CoroutineScope
 
@@ -37,8 +37,9 @@ fun MainView(
     navController: NavHostController,
     currentSelectedItemId: MutableState<String>
 ) {
+    var showNavigationBar by remember { mutableStateOf(true) }
     Scaffold (
-        topBar = { GetTopAppBar(scope, drawerState) },
+        topBar = { if (showNavigationBar) GetTopAppBar(scope, drawerState) else GetSubMenuTopAppBar() },
 
         content = { innerPadding ->
             Column(
@@ -46,23 +47,27 @@ fun MainView(
                     .padding(innerPadding)
                     .verticalScroll(rememberScrollState())
             ) {
-                AnimatedVisibility(
-                    visibleState = remember { MutableTransitionState(false) }.apply {
-                        targetState = true
-                    },
-                    modifier = Modifier.fillMaxSize(),
-                    enter = slideInHorizontally(
-                        initialOffsetX = {  it },
-                        animationSpec = tween(durationMillis = 300)
-                    ),
-                    exit = slideOutHorizontally(
-                        targetOffsetX = {  -it },
-                        animationSpec = tween(durationMillis = 300)
-                    )
+                navController.addOnDestinationChangedListener{ _,destination,_ ->
+                    for (it in NavigationItem.entries) {
+                        if (destination.route == it.name) {
+                            showNavigationBar = when (it.navigationType) {
+                                NavigationType.MAIN_MENU -> true
+                                NavigationType.FULL_SCREEN -> false
+                                NavigationType.SUB_MENU -> false
+                            }
+                            if (it.navigationType == NavigationType.MAIN_MENU) {
+                                currentSelectedItemId.value = it.name
+                            }
+                        }
+                    }
+                }
 
-                ) {
-                    NavHost(navController = navController, startDestination = NavigationMenuItem.Home.name) {
-                        for (navigationMenuItem in NavigationMenuItem.entries) {
+                GlobalNavigationController(navController)
+
+                NavHost(navController = navController, startDestination = NavigationItem.HOME.name) {
+                    for (navigationMenuItem in NavigationItem.entries) {
+                        if (NavigationType.MAIN_MENU == navigationMenuItem.navigationType
+                            || NavigationType.SUB_MENU == navigationMenuItem.navigationType) {
                             composable(navigationMenuItem.name, content = {
                                 CallNavigationMenuItemComposable(navigationMenuItem)
                             })
@@ -73,9 +78,7 @@ fun MainView(
 
         },
 
-        bottomBar = {
-            GetBottomAppBar(navController,currentSelectedItemId)
-        },
+        bottomBar = { GetBottomAppBar(currentSelectedItemId) },
 
         floatingActionButton = {
             FloatingActionButton(onClick = {

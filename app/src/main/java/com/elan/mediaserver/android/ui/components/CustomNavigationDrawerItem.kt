@@ -13,41 +13,43 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.elan.mediaserver.android.ui.common.EMSNavController
 import com.elan.mediaserver.android.ui.common.GetIcon
 import com.elan.mediaserver.android.ui.common.GetSelectedIcon
-import com.elan.mediaserver.android.ui.common.NavigationMenuItem
+import com.elan.mediaserver.android.ui.common.NavigationEvent
+import com.elan.mediaserver.android.ui.common.NavigationItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun CustomNavigationDrawerItem(
-    navController: NavController,
     scope: CoroutineScope,
     drawerState: DrawerState,
     currentSelectedItemId: MutableState<String>,
-    navigationMenuItem: NavigationMenuItem) {
+    navigationItem: NavigationItem
+) {
     NavigationDrawerItem(
         icon = {
-            if (currentSelectedItemId.value == navigationMenuItem.name) {
-                GetSelectedIcon(navigationMenuItem)
+            if (currentSelectedItemId.value == navigationItem.name) {
+                GetSelectedIcon(navigationItem)
             } else {
-                GetIcon(navigationMenuItem)
+                GetIcon(navigationItem)
             }
         },
         label = {
             Text(
-            text = navigationMenuItem.name,
+            text = navigationItem.name,
             modifier = Modifier.padding(8.dp)
         )
         },
-        selected = currentSelectedItemId.value == navigationMenuItem.name,
+        selected = currentSelectedItemId.value == navigationItem.name,
         onClick = {
-            currentSelectedItemId.value = navigationMenuItem.name
+            currentSelectedItemId.value = navigationItem.name
             scope.launch {
                 drawerState.close()
             }
-            navController.navigate(navigationMenuItem.name)
+            NavigationEvent.NavigateTo.navigationItem = navigationItem
+            EMSNavController.execute(NavigationEvent.NavigateTo)
         },
         modifier = Modifier.padding(0.dp, 8.dp, 8.dp, 0.dp),
         shape = RoundedCornerShape(0,100,100,0)
@@ -57,21 +59,23 @@ internal fun CustomNavigationDrawerItem(
 
 @Composable
 internal fun RowScope.CustomBottomNavigationItem(
-    navController: NavController,
     currentSelectedItemId: MutableState<String>,
-    navigationMenuItem: NavigationMenuItem) {
+    navigationItem: NavigationItem
+) {
 
    NavigationBarItem(
-       selected = currentSelectedItemId.value == navigationMenuItem.name,
+       selected = currentSelectedItemId.value == navigationItem.name,
        onClick = {
-           navController.navigate(navigationMenuItem.name)
-           currentSelectedItemId.value = navigationMenuItem.name
+//           navController.navigate(navigationItem.name)
+           NavigationEvent.NavigateTo.navigationItem = navigationItem
+           EMSNavController.execute(NavigationEvent.NavigateTo)
+           currentSelectedItemId.value = navigationItem.name
        },
        icon = {
-           if (currentSelectedItemId.value == navigationMenuItem.name) {
-               GetSelectedIcon(navigationMenuItem)
+           if (currentSelectedItemId.value == navigationItem.name) {
+               GetSelectedIcon(navigationItem)
            } else {
-               GetIcon(navigationMenuItem)
+               GetIcon(navigationItem)
            }
        },
 

@@ -14,9 +14,12 @@ fun Home() {
     Column (Modifier.padding(16.dp)) {
         CardRow(title = "Recently Added")
         CardRow(title = "Movies")
+        CardRow(title = "Series")
+        CardRow(title = "Music")
+        CardRow(title = "Movies")
+        CardRow(title = "Series")
         CardRow(title = "Music")
     }
-
 }
 
 @Preview

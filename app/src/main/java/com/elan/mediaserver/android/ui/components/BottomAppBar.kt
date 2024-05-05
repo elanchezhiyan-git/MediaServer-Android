@@ -10,11 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import com.elan.mediaserver.android.ui.common.NavigationMenuItem
+import com.elan.mediaserver.android.ui.common.NavigationItem
 
 @Composable
-fun GetBottomAppBar(navController: NavHostController, currentSelectedItemId: MutableState<String>) {
+fun GetBottomAppBar(currentSelectedItemId: MutableState<String>) {
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.primary,
@@ -24,8 +23,8 @@ fun GetBottomAppBar(navController: NavHostController, currentSelectedItemId: Mut
                 .fillMaxWidth()
                 .padding(8.dp), horizontalArrangement = Arrangement.SpaceBetween) {
 
-                for (bottomNavigationItem in NavigationMenuItem.getBottomNavigationItems()) {
-                    CustomBottomNavigationItem(navController, currentSelectedItemId, bottomNavigationItem)
+                for (bottomNavigationItem in NavigationItem.getMainMenuItems()) {
+                    CustomBottomNavigationItem(currentSelectedItemId, bottomNavigationItem)
                 }
             }
         }

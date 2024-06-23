@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.elan.mediaserver.android.R
 import com.elan.mediaserver.android.ui.common.EMSNavController
-import com.elan.mediaserver.android.ui.common.NavigationEvent
 import com.elan.mediaserver.android.ui.common.NavigationItem
 
 @Composable
@@ -56,8 +55,7 @@ fun Card() {
         androidx.compose.material3.Card(
             Modifier
                 .clickable {
-                    NavigationEvent.NavigateTo.navigationItem = NavigationItem.MOVIE_DESCRIPTION
-                    EMSNavController.execute(NavigationEvent.NavigateTo)
+                    EMSNavController.navigateTo(NavigationItem.MOVIE_DESCRIPTION)
                 }
                 .indication(
                     indication = rememberRipple(radius = 5.dp),

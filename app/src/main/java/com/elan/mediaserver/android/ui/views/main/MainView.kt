@@ -53,7 +53,7 @@ fun MainView(
                             showNavigationBar = when (it.navigationType) {
                                 NavigationType.MAIN_MENU -> true
                                 NavigationType.FULL_SCREEN -> false
-                                NavigationType.SUB_MENU -> false
+                                NavigationType.SUB_MENU -> true
                             }
                             if (it.navigationType == NavigationType.MAIN_MENU) {
                                 currentSelectedItemId.value = it.name

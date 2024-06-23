@@ -34,14 +34,11 @@ enum class NavigationItem(val navigationType: NavigationType) {
     MOVIES(NavigationType.SUB_MENU),
     MUSIC(NavigationType.SUB_MENU),
     DOWNLOADS(NavigationType.MAIN_MENU),
-    MOVIE_DESCRIPTION(NavigationType.SUB_MENU);
+    MOVIE_DESCRIPTION(NavigationType.FULL_SCREEN);
 
     companion object {
-//        private val allItems: List<NavigationItem> = listOf(HOME, FAVOURITES, MOVIES, MUSIC, DOWNLOADS)
-
         fun getMainMenuItems(): List<NavigationItem> {
             return NavigationItem.entries.filter { NavigationType.MAIN_MENU == it.navigationType }
-//            return allItems
         }
     }
 
@@ -98,7 +95,7 @@ fun GetIcon(navigationItem: NavigationItem): Unit? {
     return function
 }
 
-sealed class NavigationEvent {
+sealed class NavigationEvent() {
 
     lateinit var navigationItem : NavigationItem
     object PopBackStack : NavigationEvent()
@@ -107,10 +104,9 @@ sealed class NavigationEvent {
 }
 
 object EMSNavController {
-//    private lateinit var destinationNavigationItem: NavigationItem
+
     private val composables = mutableSetOf<(NavigationEvent) -> Unit>()
     fun execute(navigationEvent: NavigationEvent) {
-//        destinationNavigationItem = navigationItem;
         composables.forEach { it(navigationEvent) }
     }
 
@@ -121,6 +117,17 @@ object EMSNavController {
     fun removeFromNavigationStack(composable: (NavigationEvent) -> Unit) {
         composables.remove(composable)
     }
+
+    fun navigateTo(navigationItem: NavigationItem) {
+        NavigationEvent.NavigateTo.navigationItem = navigationItem
+        execute(NavigationEvent.NavigateTo)
+    }
+
+    fun popBack() {
+        execute(NavigationEvent.PopBackStack)
+    }
+
+
 }
 
 @Composable

@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.elan.mediaserver.android.ui.common.EMSNavController
 import com.elan.mediaserver.android.ui.common.GetIcon
 import com.elan.mediaserver.android.ui.common.GetSelectedIcon
-import com.elan.mediaserver.android.ui.common.NavigationEvent
 import com.elan.mediaserver.android.ui.common.NavigationItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -48,8 +47,7 @@ internal fun CustomNavigationDrawerItem(
             scope.launch {
                 drawerState.close()
             }
-            NavigationEvent.NavigateTo.navigationItem = navigationItem
-            EMSNavController.execute(NavigationEvent.NavigateTo)
+            EMSNavController.navigateTo(navigationItem)
         },
         modifier = Modifier.padding(0.dp, 8.dp, 8.dp, 0.dp),
         shape = RoundedCornerShape(0,100,100,0)
@@ -66,9 +64,7 @@ internal fun RowScope.CustomBottomNavigationItem(
    NavigationBarItem(
        selected = currentSelectedItemId.value == navigationItem.name,
        onClick = {
-//           navController.navigate(navigationItem.name)
-           NavigationEvent.NavigateTo.navigationItem = navigationItem
-           EMSNavController.execute(NavigationEvent.NavigateTo)
+           EMSNavController.navigateTo(navigationItem)
            currentSelectedItemId.value = navigationItem.name
        },
        icon = {

@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import com.elan.mediaserver.android.ui.common.EMSNavController
-import com.elan.mediaserver.android.ui.common.NavigationEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -80,9 +79,7 @@ fun GetSubMenuTopAppBar() {
             )
         },
         navigationIcon = {
-            IconButton(onClick = {
-                EMSNavController.execute(NavigationEvent.PopBackStack)
-            }) {
+            IconButton(onClick = { EMSNavController.popBack() }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Drawer"

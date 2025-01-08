@@ -25,7 +25,20 @@
         </State>
       </entry>
       <entry key="app">
-        <State />
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="SERIAL_NUMBER" />
+                  <value value="adb-FAXOTCR46TK7BATS-nQEmmO._adb-tls-connect._tcp" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-06-30T12:33:17.102224800Z" />
+        </State>
       </entry>
     </value>
   </component>

@@ -26,12 +26,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.elan.mediaserver.android.R
+import com.elan.mediaserver.android.data.model.FileDto
 import com.elan.mediaserver.android.ui.common.EMSNavController
 import com.elan.mediaserver.android.ui.common.NavigationItem
+
+@Composable
+fun CardRow(title: String, files: List<FileDto>) {
+    Row {
+        Text(text = title, fontSize = 20.sp)
+    }
+    Row (
+        Modifier
+            .horizontalScroll(rememberScrollState())
+            .padding(0.dp, 8.dp)
+    ) {
+        for (file in files) {
+            Card(file)
+        }
+    }
+}
+
 
 @Composable
 fun CardRow(title: String) {
@@ -43,14 +62,14 @@ fun CardRow(title: String) {
             .horizontalScroll(rememberScrollState())
             .padding(0.dp, 8.dp)
     ) {
-        for (i in 1..10) {
-            Card()
-        }
+//        for (i in 1..10) {
+//            Card(file)
+//        }
     }
 }
 
 @Composable
-fun Card() {
+fun Card(file: FileDto) {
     Column (Modifier.padding(8.dp,4.dp)) {
         androidx.compose.material3.Card(
             Modifier
@@ -69,8 +88,11 @@ fun Card() {
         }
         Text(modifier = Modifier
             .padding(0.dp, 8.dp)
-            .fillMaxWidth(1f)
-            .align(Alignment.CenterHorizontally), text = "Movies")
+            .widthIn(0.dp,100.dp)
+            .align(Alignment.CenterHorizontally),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            text = file.fileName.orEmpty())
     }
 }
 

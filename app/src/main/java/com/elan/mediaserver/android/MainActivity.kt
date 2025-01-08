@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DrawerValue
@@ -15,11 +16,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.elan.mediaserver.android.data.viewmodel.FileViewModel
 import com.elan.mediaserver.android.ui.components.CustomDrawer
 import com.elan.mediaserver.android.ui.theme.MediaServerAndroidTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: FileViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

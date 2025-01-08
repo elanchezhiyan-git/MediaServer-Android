@@ -149,6 +149,7 @@ fun GlobalNavigationController(navController: NavController) {
                     }
 
                     NavigationItem.NavigationType.SUB_MENU -> navController.navigate(navigationEvent.navigationItem.name)
+                    NavigationItem.NavigationType.FULL_SCREEN -> navController.navigate(navigationEvent.navigationItem.name)
                     else -> TODO()
                 }
             } else if (navigationEvent == NavigationEvent.PopBackStack) {

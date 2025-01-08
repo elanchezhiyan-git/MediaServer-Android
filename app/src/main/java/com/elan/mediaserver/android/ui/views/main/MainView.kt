@@ -66,12 +66,12 @@ fun MainView(
 
                 NavHost(navController = navController, startDestination = NavigationItem.HOME.name) {
                     for (navigationMenuItem in NavigationItem.entries) {
-                        if (NavigationType.MAIN_MENU == navigationMenuItem.navigationType
-                            || NavigationType.SUB_MENU == navigationMenuItem.navigationType) {
+//                        if (NavigationType.MAIN_MENU == navigationMenuItem.navigationType
+//                            || NavigationType.SUB_MENU == navigationMenuItem.navigationType) {
                             composable(navigationMenuItem.name, content = {
                                 CallNavigationMenuItemComposable(navigationMenuItem)
                             })
-                        }
+//                        }
                     }
                 }
             }

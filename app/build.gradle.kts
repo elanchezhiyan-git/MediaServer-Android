@@ -1,16 +1,20 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+
 }
 
 android {
-    namespace = "com.elan.mediaserver.android"
-    compileSdk = 34
+    namespace = "com.elan.media.server.android"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.elan.mediaserver.android"
+        applicationId = "com.elan.media.server.android"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -68,14 +72,20 @@ dependencies {
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     androidTestImplementation(libs.androidx.navigation.testing)
     implementation(libs.androidx.navigation.compose)
-//    implementation("androidx.media3:media3-exoplayer")
-//    implementation("androidx.media3:media3-exoplayer-dash")
-//    implementation("androidx.media3:media3-ui")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("androidx.compose.runtime:runtime-livedata:1.6.8")
-//    implementation (libs.androidx.media3.exoplayer)
-//    implementation (libs.androidx.media3.ui)
-//    implementation (libs.androidx.media3.common)
 
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.exoplayer.dash)
+    implementation(libs.androidx.media3.ui)
+
+    implementation (libs.retrofit)
+
+    implementation (libs.converter.gson)
+
+    implementation(libs.androidx.runtime.livedata)
+
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+
+    implementation(libs.coil.compose)
 }

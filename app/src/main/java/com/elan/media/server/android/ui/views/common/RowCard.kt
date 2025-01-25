@@ -1,0 +1,182 @@
+package com.elan.media.server.android.ui.views.common
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.elan.media.server.android.R
+import com.elan.media.server.android.data.model.FileDto
+import com.elan.media.server.android.ui.common.EMSNavController
+import com.elan.media.server.android.ui.common.NavigationItem
+import java.io.File
+
+@Composable
+fun CardRow(title: String, files: List<FileDto>) {
+    Row {
+        Text(text = title, fontSize = 20.sp)
+    }
+    Row (
+        Modifier
+            .horizontalScroll(rememberScrollState())
+            .padding(0.dp, 8.dp)
+    ) {
+        if (files.isNotEmpty()) {
+            for (file in files) {
+                Card(file)
+            }
+        } else{
+            for (f in 1..5) {
+                val file = FileDto()
+                file.fileName = "Sample"
+                Card(file)
+            }
+        }
+    }
+}
+
+
+@Composable
+fun CardRow(title: String) {
+    Row {
+        Text(text = title, fontSize = 20.sp)
+    }
+    Row (
+        Modifier
+            .horizontalScroll(rememberScrollState())
+            .padding(0.dp, 8.dp)
+    ) {
+//        for (i in 1..10) {
+//            Card(file)
+//        }
+    }
+}
+
+@Composable
+fun Card(file: FileDto) {
+    Column (Modifier.padding(8.dp,4.dp)) {
+        androidx.compose.material3.Card(
+            Modifier
+                .clickable {
+                    EMSNavController.navigateTo(NavigationItem.MOVIE_DESCRIPTION)
+                }) {
+            Image(
+                painter = painterResource(id = R.drawable.remote),
+                contentDescription = "remote",
+                modifier = Modifier.widthIn(0.dp, 100.dp)
+            )
+        }
+        Text(modifier = Modifier
+            .padding(0.dp, 8.dp)
+            .widthIn(0.dp, 100.dp)
+            .align(Alignment.CenterHorizontally),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            text = file.fileName.orEmpty())
+    }
+}
+
+
+@Composable
+fun MovieDescription() {
+    Column (
+        Modifier
+            .padding(8.dp)
+            .fillMaxSize(1f)) {
+        Image(painter = painterResource(id = R.drawable.remote__1_), contentDescription = "movie banner")
+        Row {
+            Text(text = "Premalu", modifier = Modifier.padding(8.dp))
+            Text(text = "2024", modifier = Modifier.padding(8.dp))
+            Text(text = "Romance", modifier = Modifier.padding(8.dp))
+        }
+
+        Row {
+            Text(text = "Video:", modifier = Modifier.padding(8.dp), fontWeight = FontWeight.Bold)
+            Text(text = "1080p H264", modifier = Modifier.padding(0.dp,8.dp))
+
+            Text(text = "Audio:", modifier = Modifier.padding(8.dp), fontWeight = FontWeight.Bold)
+            Text(text = "Tamil EAC3 5.1 (Default)", modifier = Modifier.padding(0.dp,8.dp))
+        }
+
+        Row {
+            Button(onClick = { /*TODO*/ },
+                Modifier
+                    .fillMaxWidth(0.5f)
+                    .padding(8.dp)) {
+                Icon(painter = painterResource(R.drawable.play_filled), contentDescription = "Play")
+                Text(text = "Play", modifier = Modifier.padding(4.dp))
+            }
+            Button(onClick = { /*TODO*/ },
+                Modifier
+                    .fillMaxWidth(1f)
+                    .padding(8.dp)) {
+                Icon(painter = painterResource(R.drawable.downloads_filled), contentDescription = "Play")
+                Text(text = "Download", modifier = Modifier.padding(4.dp))
+            }
+        }
+
+        Row (
+            Modifier
+                .fillMaxWidth(1f)
+                .padding(8.dp),Arrangement.SpaceEvenly) {
+            Column ( horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(painter = painterResource(R.drawable.like_outlined), contentDescription = "Favourites")
+                Text(text = "Like", fontSize = 12.sp)
+            }
+            Column ( horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(painter = rememberVectorPainter(image = Icons.Filled.Add), contentDescription = "Favourites")
+                Text(text = "My list", fontSize = 12.sp)
+            }
+            Column (horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(painter = rememberVectorPainter(image = Icons.Outlined.FavoriteBorder), contentDescription = "Favourites")
+                Text(text = "Favourite", fontSize = 12.sp)
+            }
+            Column (horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(painter = painterResource(R.drawable.delete_outlined), contentDescription = "Delete")
+                Text(text = "Delete", fontSize = 12.sp)
+            }
+            Column (horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(painter = painterResource(R.drawable.options_horizontal_filled), contentDescription = "More")
+                Text(text = "More", fontSize = 12.sp)
+            }
+        }
+
+        Row (Modifier.padding(0.dp,16.dp)) {
+            Text(text = "Sachin pursues romance but finds himself caught betwwen two potential partners" +
+                    ", leading to amusing complications")
+        }
+
+        CardRow(title = "Cast & Crew")
+    }
+}
+
+@Preview
+@Composable
+fun MovieDescriptionPreview() {
+    MovieDescription()
+}

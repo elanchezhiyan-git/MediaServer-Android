@@ -4,7 +4,8 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-
+    alias(libs.plugins.kapt)
+//    kotlin("android")
 }
 
 android {
@@ -88,4 +89,12 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
 
     implementation(libs.coil.compose)
+
+    implementation("io.github.classgraph:classgraph:4.8.157")
+    implementation(libs.symbol.processing.api)
+    implementation(kotlin("reflect"))
+    implementation(project(":shared"))
+    ksp(project(":AnnotationProcessor"))
+
+    // Assuming this is your processor module
 }

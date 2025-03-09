@@ -1,7 +1,6 @@
 package com.elan.media.server.android.ui.common
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -30,6 +29,7 @@ import com.elan.media.server.android.ui.views.favourites.Favourites
 import com.elan.media.server.android.ui.views.home.Home
 import com.elan.media.server.android.ui.views.movies.Movies
 import com.elan.media.server.android.ui.views.music.Music
+import com.elan.media.server.shared.enums.NavigationType
 
 enum class NavigationItem(val navigationType: NavigationType) {
 
@@ -47,10 +47,6 @@ enum class NavigationItem(val navigationType: NavigationType) {
         }
     }
 
-    enum class NavigationType {
-        MAIN_MENU, SUB_MENU, FULL_SCREEN, POP_OVER;
-    }
-
 }
 
 
@@ -61,7 +57,7 @@ fun CallNavigationMenuItemComposable(navigationItem: NavigationItem) {
     val function = when (navigationItem) {
         HOME -> Home()
         FAVOURITES -> Favourites()
-        MOVIES -> Movies()
+        MOVIES -> Movies.MoviesView()
         MUSIC -> Music()
         DOWNLOADS -> Downloads()
         MOVIE_DESCRIPTION -> MovieDescription()
@@ -148,7 +144,7 @@ fun GlobalNavigationController(navController: NavController) {
             navigationEvent: NavigationEvent ->
             if (navigationEvent == NavigationEvent.NavigateTo) {
                 when (navigationEvent.navigationItem.navigationType) {
-                    NavigationItem.NavigationType.MAIN_MENU -> {
+                    NavigationType.MAIN_MENU -> {
                         navController.navigate(navigationEvent.navigationItem.name) {
                             launchSingleTop = true
                             restoreState = true
@@ -158,9 +154,9 @@ fun GlobalNavigationController(navController: NavController) {
                         }
                     }
 
-                    NavigationItem.NavigationType.SUB_MENU -> navController.navigate(navigationEvent.navigationItem.name)
-                    NavigationItem.NavigationType.FULL_SCREEN -> navController.navigate(navigationEvent.navigationItem.name)
-                    NavigationItem.NavigationType.POP_OVER -> {
+                    NavigationType.SUB_MENU -> navController.navigate(navigationEvent.navigationItem.name)
+                    NavigationType.FULL_SCREEN -> navController.navigate(navigationEvent.navigationItem.name)
+                    NavigationType.POP_OVER -> {
                         navController.navigate(navigationEvent.navigationItem.name)
                     }
                     else -> TODO()

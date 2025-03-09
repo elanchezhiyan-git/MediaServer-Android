@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Media server Android"
 include(":app")
- 
+include(":shared")
+include(":AnnotationProcessor")

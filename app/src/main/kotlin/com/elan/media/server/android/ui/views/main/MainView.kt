@@ -1,6 +1,5 @@
 package com.elan.media.server.android.ui.views.main
 
-import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -26,10 +25,10 @@ import com.elan.media.server.android.ui.common.CallNavigationMenuItemComposable
 import com.elan.media.server.android.ui.common.EMSNavController
 import com.elan.media.server.android.ui.common.GlobalNavigationController
 import com.elan.media.server.android.ui.common.NavigationItem
-import com.elan.media.server.android.ui.common.NavigationItem.NavigationType
 import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_PICKER
 import com.elan.media.server.android.ui.components.GetSubMenuTopAppBar
 import com.elan.media.server.android.ui.components.GetTopAppBar
+import com.elan.media.server.shared.enums.NavigationType
 import kotlinx.coroutines.CoroutineScope
 
 @Composable

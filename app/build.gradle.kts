@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kapt)
 //    kotlin("android")
 }
 
@@ -49,6 +48,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    applicationVariants.all {
+        kotlin.sourceSets {
+            getByName(name) {
+                kotlin.srcDir("build/generated/ksp/$name/kotlin")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -91,7 +97,6 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation("io.github.classgraph:classgraph:4.8.157")
-    implementation(libs.symbol.processing.api)
     implementation(kotlin("reflect"))
     implementation(project(":shared"))
     ksp(project(":AnnotationProcessor"))

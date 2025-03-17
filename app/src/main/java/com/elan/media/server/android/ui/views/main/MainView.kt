@@ -23,7 +23,6 @@ import androidx.navigation.compose.composable
 import com.elan.media.server.android.R
 import com.elan.media.server.android.ui.common.CallNavigationMenuItemComposable
 import com.elan.media.server.android.ui.common.EMSNavController
-import com.elan.media.server.android.ui.common.GlobalNavigationController
 import com.elan.media.server.android.ui.common.NavigationItem
 import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_PICKER
 import com.elan.media.server.android.ui.components.GetSubMenuTopAppBar
@@ -56,6 +55,7 @@ fun MainView(
                                 NavigationType.FULL_SCREEN -> false
                                 NavigationType.SUB_MENU -> true
                                 NavigationType.POP_OVER -> false
+                                NavigationType.DEFAULT -> false
                             }
                             if (it.navigationType == NavigationType.MAIN_MENU) {
                                 currentSelectedItemId.value = it.name
@@ -64,16 +64,13 @@ fun MainView(
                     }
                 }
 
-                GlobalNavigationController(navController)
+                EMSNavController.Initialize(navController)
 
                 NavHost(navController = navController, startDestination = NavigationItem.HOME.name) {
                     for (navigationMenuItem in NavigationItem.entries) {
-//                        if (NavigationType.MAIN_MENU == navigationMenuItem.navigationType
-//                            || NavigationType.SUB_MENU == navigationMenuItem.navigationType) {
-                            composable(navigationMenuItem.name, content = {
-                                CallNavigationMenuItemComposable(navigationMenuItem)
-                            })
-//                        }
+                        composable(navigationMenuItem.name, content = {
+                            CallNavigationMenuItemComposable(navigationMenuItem)
+                        })
                     }
                 }
             }

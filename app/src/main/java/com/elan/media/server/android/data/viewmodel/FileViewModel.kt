@@ -6,21 +6,31 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elan.media.server.android.data.constants.Category
-import com.elan.media.server.android.data.model.FileDto
+import com.elan.media.server.android.data.model.FileDTOModel
 import com.elan.media.server.android.data.repository.MediaServiceRepository
 import kotlinx.coroutines.launch
 
 class FileViewModel : ViewModel() {
+
     private val repository = MediaServiceRepository()
 
-    private val _files = MutableLiveData<List<FileDto>>()
-    val files: LiveData<List<FileDto>> = _files
+    private val _recentlyAdded = MutableLiveData<List<FileDTOModel>>()
+    val recentlyAdded: LiveData<List<FileDTOModel>> = _recentlyAdded
+
+    private val _movieFiles = MutableLiveData<List<FileDTOModel>>()
+    val movieFiles: LiveData<List<FileDTOModel>> = _movieFiles
+
+    private val _musicFiles = MutableLiveData<List<FileDTOModel>>()
+    val musicFiles: LiveData<List<FileDTOModel>> = _musicFiles
+
+    private val _photoFiles = MutableLiveData<List<FileDTOModel>>()
+    val photoFiles: LiveData<List<FileDTOModel>> = _photoFiles
 
     fun getRecentlyAdded() {
         viewModelScope.launch {
             try {
                 val filesFromAPi = repository.getFiles(Category.RECENTLY_ADDED)
-                _files.value = filesFromAPi
+                _recentlyAdded.value = filesFromAPi
             } catch (e : Exception) {
                 Log.e("Tag", "Error in retrieving recently added: ", e)
             }
@@ -31,7 +41,12 @@ class FileViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val filesFromAPi = repository.getFiles(category)
-                _files.value = filesFromAPi
+                when(category) {
+                    Category.MOVIES -> _movieFiles.value = filesFromAPi
+                    Category.MUSIC -> _musicFiles.value = filesFromAPi
+                    Category.PHOTOS -> _photoFiles.value = filesFromAPi
+                    else -> {}
+                }
             } catch (e : Exception) {
                 Log.e("Tag", "fetchFiles: ", e)
             }

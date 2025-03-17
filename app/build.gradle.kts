@@ -2,9 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-//    kotlin("android")
 }
 
 android {
@@ -31,11 +29,22 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
+    }
+    kotlin {
+        sourceSets.main {
+            kotlin.srcDir("src/main/java")
+        }
+        sourceSets.debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        sourceSets.release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
     }
     buildFeatures {
         compose = true
@@ -48,13 +57,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    applicationVariants.all {
-        kotlin.sourceSets {
-            getByName(name) {
-                kotlin.srcDir("build/generated/ksp/$name/kotlin")
-            }
-        }
-    }
+
 }
 
 dependencies {
@@ -90,16 +93,10 @@ dependencies {
 
     implementation(libs.androidx.runtime.livedata)
 
-    ksp(libs.hilt.compiler)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
-
     implementation(libs.coil.compose)
 
-    implementation("io.github.classgraph:classgraph:4.8.157")
     implementation(kotlin("reflect"))
     implementation(project(":shared"))
     ksp(project(":AnnotationProcessor"))
 
-    // Assuming this is your processor module
 }

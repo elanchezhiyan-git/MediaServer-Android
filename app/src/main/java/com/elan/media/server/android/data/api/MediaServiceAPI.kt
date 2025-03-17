@@ -1,7 +1,7 @@
 package com.elan.media.server.android.data.api
 
 import com.elan.media.server.android.data.constants.Category
-import com.elan.media.server.android.data.model.FileDto
+import com.elan.media.server.android.data.model.FileDTOModel
 import com.elan.media.server.android.data.model.UploadResponse
 import okhttp3.MultipartBody
 import retrofit2.http.GET
@@ -14,7 +14,7 @@ import retrofit2.http.Query
 interface MediaServiceAPI {
 
     @GET("/files/getFiles")
-    suspend fun getFiles(@Query("id") id: String?, @Header("Category") category: Category?): List<FileDto>
+    suspend fun getFiles(@Query("id") id: String?, @Header("Category") category: Category?): List<FileDTOModel>
 
     @Multipart
     @POST("/files/upload")

@@ -1,6 +1,7 @@
 package com.elan.media.server.android.ui.common
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -23,15 +24,16 @@ import com.elan.media.server.android.ui.common.NavigationItem.MOVIE_DESCRIPTION
 import com.elan.media.server.android.ui.common.NavigationItem.MUSIC
 import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_PICKER
 import com.elan.media.server.android.ui.photopicker.PhotoPicker
-import com.elan.media.server.android.ui.views.common.MovieDescription
 import com.elan.media.server.android.ui.views.downloads.Downloads
 import com.elan.media.server.android.ui.views.favourites.Favourites
 import com.elan.media.server.android.ui.views.home.Home
+import com.elan.media.server.android.ui.views.movies.MovieDescription
 import com.elan.media.server.android.ui.views.movies.Movies
 import com.elan.media.server.android.ui.views.music.Music
+import com.elan.media.server.shared.annotation.NavigationItemBase
 import com.elan.media.server.shared.enums.NavigationType
 
-enum class NavigationItem(val navigationType: NavigationType) {
+enum class NavigationItem(val navigationType: NavigationType) : NavigationItemBase {
 
     HOME(NavigationType.MAIN_MENU),
     FAVOURITES(NavigationType.MAIN_MENU),
@@ -57,7 +59,7 @@ fun CallNavigationMenuItemComposable(navigationItem: NavigationItem) {
     val function = when (navigationItem) {
         HOME -> Home()
         FAVOURITES -> Favourites()
-        MOVIES -> Movies.MoviesView()
+        MOVIES -> Movies()
         MUSIC -> Music()
         DOWNLOADS -> Downloads()
         MOVIE_DESCRIPTION -> MovieDescription()
@@ -72,9 +74,9 @@ fun GetSelectedIcon(navigationItem: NavigationItem): Unit? {
     val function = when (navigationItem) {
         HOME -> Icon(painter = rememberVectorPainter(Icons.Filled.Home), contentDescription = navigationItem.name)
         FAVOURITES -> Icon(painter = rememberVectorPainter(Icons.Filled.Favorite), contentDescription = navigationItem.name)
-        MOVIES -> Icon(painter = painterResource(R.drawable.video_filled), contentDescription = navigationItem.name)
+//        MOVIES -> Icon(painter = painterResource(R.drawable.video_filled), contentDescription = navigationItem.name)
         PHOTO_PICKER -> Icon(painter = painterResource(R.drawable.video_filled), contentDescription = navigationItem.name)
-        MUSIC -> Icon(painter = painterResource(R.drawable.music_filled), contentDescription = navigationItem.name)
+//        MUSIC -> Icon(painter = painterResource(R.drawable.music_filled), contentDescription = navigationItem.name)
         DOWNLOADS -> Icon(painter = painterResource(R.drawable.downloads_filled), contentDescription = navigationItem.name)
         else -> {
             return null
@@ -100,52 +102,73 @@ fun GetIcon(navigationItem: NavigationItem): Unit? {
     return function
 }
 
-sealed class NavigationEvent() {
-
-    lateinit var navigationItem : NavigationItem
-    data object PopBackStack : NavigationEvent()
-    data object NavigateTo : NavigationEvent()
-
-}
-
 object EMSNavController {
 
-    private val composables = mutableSetOf<(NavigationEvent) -> Unit>()
+    private lateinit var navigation: (NavigationItem) -> Unit
+    private lateinit var popBack: () -> Boolean
+    private lateinit var retrieveFunction: (String) -> Any?
+    private lateinit var storeFunction: (String, Any) -> Any?
 
-    fun execute(navigationEvent: NavigationEvent) {
-        composables.forEach { it(navigationEvent) }
+    private fun execute(navigationEvent: NavigationItem) {
+        navigation.invoke(navigationEvent)
     }
 
-    fun addToNavigationStack(composable: (NavigationEvent) -> Unit) {
-        composables.add(composable)
+    private fun setNavigation(composable: (NavigationItem) -> Unit) {
+        this.navigation = composable;
     }
 
-    fun removeFromNavigationStack(composable: (NavigationEvent) -> Unit) {
-        composables.remove(composable)
+    private fun setPopBack(popBack: () -> Boolean) {
+        this.popBack = popBack
+    }
+
+    private fun setRetrieveFunction(retrieveFunction: (String) -> Any?) {
+        this.retrieveFunction = retrieveFunction
+    }
+
+    private fun setStoreFunction(storeFunction: (String, Any) -> Unit?) {
+        this.storeFunction = storeFunction
     }
 
     fun navigateTo(navigationItem: NavigationItem) {
-        NavigationEvent.NavigateTo.navigationItem = navigationItem
-        execute(NavigationEvent.NavigateTo)
+        Log.d("TAG", "navigateTo: ")
+        execute(navigationItem)
     }
 
     fun popBack() {
-        execute(NavigationEvent.PopBackStack)
+        popBack.invoke()
     }
 
+    fun storeMultipleValues(values: Map<String, Any>) {
+        for (value in values) {
+            storeValueById(value.key, value.value)
+        }
+    }
 
-}
+    fun retrieveMultipleValues(keys: List<String>): Map<String, Any> {
+        val values = mutableMapOf<String, Any>()
+        for (key in keys) {
+            values[key] = retrieveValueById(key)!!
+        }
+        return values
+    }
 
-@Composable
-fun GlobalNavigationController(navController: NavController) {
+    fun storeValueById(id: String, value: Any) {
+        storeFunction.invoke(id, value);
+    }
 
-    val navigation = remember {
-        {
-            navigationEvent: NavigationEvent ->
-            if (navigationEvent == NavigationEvent.NavigateTo) {
-                when (navigationEvent.navigationItem.navigationType) {
+    fun retrieveValueById(id: String): Any? {
+        return retrieveFunction.invoke(id);
+    }
+
+    @Composable
+    fun Initialize(navController: NavController) {
+
+
+        val navigation = remember {
+            { navigationItem: NavigationItem ->
+                when (navigationItem.navigationType) {
                     NavigationType.MAIN_MENU -> {
-                        navController.navigate(navigationEvent.navigationItem.name) {
+                        navController.navigate(navigationItem.name) {
                             launchSingleTop = true
                             restoreState = true
                             popUpTo(navController.graph.findStartDestination().id) {
@@ -154,24 +177,44 @@ fun GlobalNavigationController(navController: NavController) {
                         }
                     }
 
-                    NavigationType.SUB_MENU -> navController.navigate(navigationEvent.navigationItem.name)
-                    NavigationType.FULL_SCREEN -> navController.navigate(navigationEvent.navigationItem.name)
+                    NavigationType.SUB_MENU -> navController.navigate(navigationItem.name)
+                    NavigationType.FULL_SCREEN -> navController.navigate(navigationItem.name)
                     NavigationType.POP_OVER -> {
-                        navController.navigate(navigationEvent.navigationItem.name)
+                        navController.navigate(navigationItem.name)
                     }
                     else -> TODO()
                 }
-            } else if (navigationEvent == NavigationEvent.PopBackStack) {
+
+            }
+        }
+
+        val popBack = remember {
+            {
                 navController.popBackStack()
             }
+        }
 
+        val retrieveModelById = remember {
+            { id: String ->
+                navController.previousBackStackEntry?.savedStateHandle?.get<Any>(id)
+            }
+        }
+
+        val storeModelById = remember {
+            { modelId: String, value: Any ->
+                navController.currentBackStackEntry?.savedStateHandle?.set(modelId, value)
+            }
+        }
+
+        DisposableEffect(Unit) {
+            setNavigation(navigation)
+            setStoreFunction(storeModelById)
+            setRetrieveFunction(retrieveModelById)
+            setPopBack(popBack)
+            onDispose {
+
+            }
         }
     }
 
-    DisposableEffect(Unit) {
-        EMSNavController.addToNavigationStack(navigation)
-        onDispose {
-            EMSNavController.removeFromNavigationStack(navigation)
-        }
-    }
 }

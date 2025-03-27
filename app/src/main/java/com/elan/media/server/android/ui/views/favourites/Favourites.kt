@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.elan.media.server.android.ui.views.movies.MovieDescription
 
+//@Navigation(NavigationType.MAIN_MENU)
 @Composable
 fun Favourites() {
     AnimatedVisibility(

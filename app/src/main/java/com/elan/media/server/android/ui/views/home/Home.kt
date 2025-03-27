@@ -2,9 +2,6 @@ package com.elan.media.server.android.ui.views.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,7 +16,7 @@ import com.elan.media.server.android.ui.views.common.CardRow
 import com.elan.media.server.shared.annotation.Navigation
 import com.elan.media.server.shared.enums.NavigationType
 
-@Navigation(NavigationType.MAIN_MENU,Icons.Outlined.Home, Icons.Filled.Home)
+@Navigation(NavigationType.MAIN_MENU, icon = "home_filled", selectedIcon = "home_outlined")
 @Composable
 fun Home() {
 

@@ -2,16 +2,10 @@ package com.elan.media.server.android.ui.common
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -51,8 +45,6 @@ enum class NavigationItem(val navigationType: NavigationType) : NavigationItemBa
 
 }
 
-
-
 @SuppressLint("NewApi")
 @Composable
 fun CallNavigationMenuItemComposable(navigationItem: NavigationItem) {
@@ -72,11 +64,11 @@ fun CallNavigationMenuItemComposable(navigationItem: NavigationItem) {
 fun GetSelectedIcon(navigationItem: NavigationItem): Unit? {
 
     val function = when (navigationItem) {
-        HOME -> Icon(painter = rememberVectorPainter(Icons.Filled.Home), contentDescription = navigationItem.name)
-        FAVOURITES -> Icon(painter = rememberVectorPainter(Icons.Filled.Favorite), contentDescription = navigationItem.name)
-//        MOVIES -> Icon(painter = painterResource(R.drawable.video_filled), contentDescription = navigationItem.name)
+        HOME -> Icon(painter = painterResource(R.drawable.home_filled), contentDescription = navigationItem.name)
+        FAVOURITES -> Icon(painter = painterResource(R.drawable.favorites_filled), contentDescription = navigationItem.name)
+        MOVIES -> Icon(painter = painterResource(R.drawable.video_filled), contentDescription = navigationItem.name)
         PHOTO_PICKER -> Icon(painter = painterResource(R.drawable.video_filled), contentDescription = navigationItem.name)
-//        MUSIC -> Icon(painter = painterResource(R.drawable.music_filled), contentDescription = navigationItem.name)
+        MUSIC -> Icon(painter = painterResource(R.drawable.music_filled), contentDescription = navigationItem.name)
         DOWNLOADS -> Icon(painter = painterResource(R.drawable.downloads_filled), contentDescription = navigationItem.name)
         else -> {
             return null
@@ -89,8 +81,8 @@ fun GetSelectedIcon(navigationItem: NavigationItem): Unit? {
 fun GetIcon(navigationItem: NavigationItem): Unit? {
 
     val function = when (navigationItem) {
-        HOME -> Icon(painter = rememberVectorPainter(Icons.Outlined.Home), contentDescription = navigationItem.name)
-        FAVOURITES -> Icon(painter = rememberVectorPainter(Icons.Outlined.FavoriteBorder), contentDescription = navigationItem.name)
+        HOME -> Icon(painter = painterResource(R.drawable.home_outline), contentDescription = navigationItem.name)
+        FAVOURITES -> Icon(painter = painterResource(R.drawable.favorites_outlined), contentDescription = navigationItem.name)
         MOVIES -> Icon(painter = painterResource(R.drawable.video_outlined), contentDescription = navigationItem.name)
         PHOTO_PICKER -> Icon(painter = painterResource(R.drawable.video_outlined), contentDescription = navigationItem.name)
         MUSIC -> Icon(painter = painterResource(R.drawable.music_outline), contentDescription = navigationItem.name)

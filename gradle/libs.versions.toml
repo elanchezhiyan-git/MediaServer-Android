@@ -23,6 +23,7 @@ appcompat = "1.6.1"
 material = "1.10.0"
 jetbrainsKotlinJvm = "2.1.0"
 runtimeAndroid = "1.7.8"
+annotationJvm = "1.9.1"
 
 
 
@@ -62,6 +63,7 @@ symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-ap
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroid" }
+androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotationJvm" }
 
 # For Media Player
 #androidx-media3-exoplayer = {module = "androidx.media3", name = "media3-exoplayer", version.ref = "media3"}

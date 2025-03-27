@@ -6,6 +6,6 @@ import com.elan.media.server.shared.enums.NavigationType
 @Retention(AnnotationRetention.SOURCE)
 annotation class Navigation(
     val destination: NavigationType,
-    val icon: androidx.compose.ui.graphics.vector.ImageVector,
-    val selectedIcon: androidx.compose.ui.graphics.vector.ImageVector
+    val icon: String,
+    val selectedIcon: String
 )

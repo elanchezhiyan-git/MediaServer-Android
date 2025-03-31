@@ -1,6 +1,5 @@
 package com.elan.media.server.android.ui.views.main
 
-import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -24,10 +23,9 @@ import androidx.navigation.compose.composable
 import com.elan.media.server.android.R
 import com.elan.media.server.android.ui.common.CallNavigationMenuItemComposable
 import com.elan.media.server.android.ui.common.EMSNavController
-import com.elan.media.server.android.ui.common.GlobalNavigationController
 import com.elan.media.server.android.ui.common.NavigationItem
-import com.elan.media.server.android.ui.common.NavigationItem.NavigationType
 import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_PICKER
+import com.elan.media.server.android.ui.common.NavigationType
 import com.elan.media.server.android.ui.components.GetSubMenuTopAppBar
 import com.elan.media.server.android.ui.components.GetTopAppBar
 import kotlinx.coroutines.CoroutineScope
@@ -65,16 +63,13 @@ fun MainView(
                     }
                 }
 
-                GlobalNavigationController(navController)
+                EMSNavController.Initialize(navController)
 
                 NavHost(navController = navController, startDestination = NavigationItem.HOME.name) {
                     for (navigationMenuItem in NavigationItem.entries) {
-//                        if (NavigationType.MAIN_MENU == navigationMenuItem.navigationType
-//                            || NavigationType.SUB_MENU == navigationMenuItem.navigationType) {
-                            composable(navigationMenuItem.name, content = {
-                                CallNavigationMenuItemComposable(navigationMenuItem)
-                            })
-//                        }
+                        composable(navigationMenuItem.name, content = {
+                            CallNavigationMenuItemComposable(navigationMenuItem)
+                        })
                     }
                 }
             }

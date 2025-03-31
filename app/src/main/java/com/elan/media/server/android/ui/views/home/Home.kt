@@ -11,30 +11,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elan.media.server.android.data.constants.Category
-import com.elan.media.server.android.data.viewmodel.FileViewModel
+import com.elan.media.server.android.data.viewmodel.HomeViewModel
 import com.elan.media.server.android.ui.views.common.CardRow
 
 
 @Composable
 fun Home() {
 
-    val viewModel: FileViewModel = viewModel()
-    val recentlyAdded by viewModel.files.observeAsState(emptyList())
-    val movies by viewModel.files.observeAsState(emptyList())
-    val music by viewModel.files.observeAsState(emptyList())
-    val photos by viewModel.files.observeAsState(emptyList())
+    val viewModel: HomeViewModel = viewModel()
+
+    val recentlyAdded by viewModel.recentlyAdded.observeAsState(emptyList())
+    val movies by viewModel.movieFiles.observeAsState(emptyList())
+    val music by viewModel.musicFiles.observeAsState(emptyList())
+    val photos by viewModel.photoFiles.observeAsState(emptyList())
 
     LaunchedEffect(Unit) {
-        viewModel.getRecentlyAdded()
         viewModel.getFiles(Category.RECENTLY_ADDED)
         viewModel.getFiles(Category.MOVIES)
         viewModel.getFiles(Category.MUSIC)
+        viewModel.getFiles(Category.PHOTOS)
     }
 
     Column (Modifier.padding(16.dp)) {
         CardRow(title = "Recently Added", recentlyAdded)
         CardRow(title = "Movies", movies)
         CardRow(title = "Music", music)
+        CardRow(title = "Photos", photos)
+        CardRow(title = "My Uploads", photos)
     }
 }
 

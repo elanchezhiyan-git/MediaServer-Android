@@ -1,8 +1,11 @@
 package com.elan.media.server.android.data.model
 
+import android.os.Parcelable
 import com.elan.media.server.android.data.constants.Category
+import kotlinx.parcelize.Parcelize
 
-class FileDto {
+@Parcelize
+class FileDto : Parcelable {
     var id: String? = null
     var fileName: String? = null
     var thumbnail: String? = null

@@ -88,4 +88,14 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
 
     implementation(libs.coil.compose)
+
+    implementation(libs.ui)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    // Media3 for audio playback
+    implementation(libs.androidx.media3.session)
+
+    // Permissions
+    implementation(libs.accompanist.permissions)
 }

@@ -3,6 +3,7 @@ package com.elan.media.server.android.data.repository
 import android.util.Log
 import com.elan.media.server.android.data.client.MediaServiceClient
 import com.elan.media.server.android.data.constants.Category
+import com.elan.media.server.android.data.model.AudioDTO
 import com.elan.media.server.android.data.model.FileDto
 import com.elan.media.server.android.data.model.ThumbnailDTO
 import com.elan.media.server.android.data.model.UploadResponse
@@ -10,9 +11,11 @@ import okhttp3.MultipartBody
 
 class MediaServiceRepository {
 
-    private val mediaServiceFilesAPI = MediaServiceClient.mediaServiceFilesAPI;
+    private val mediaServiceFilesAPI = MediaServiceClient.mediaServiceFilesAPI
 
-    private val mediaServiceThumbnailAPI = MediaServiceClient.mediaServiceThumbnailAPI;
+    private val mediaServiceThumbnailAPI = MediaServiceClient.mediaServiceThumbnailAPI
+
+    private val mediaServiceAudioAPI = MediaServiceClient.mediaServiceAudioAPI
 
     suspend fun getFiles() : List<FileDto> {
         return mediaServiceFilesAPI.getFiles(" ", null);
@@ -35,4 +38,11 @@ class MediaServiceRepository {
         Log.d("API Response", thumbnail.toString())
         return thumbnail
     }
+
+    suspend fun getAudio(id: String) : AudioDTO {
+        val audioDTO = mediaServiceAudioAPI.getAudio(id)
+        Log.d("API Response", audioDTO.url.orEmpty())
+        return audioDTO
+    }
+
 }

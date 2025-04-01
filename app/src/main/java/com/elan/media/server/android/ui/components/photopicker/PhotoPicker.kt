@@ -1,4 +1,4 @@
-package com.elan.media.server.android.ui.photopicker
+package com.elan.media.server.android.ui.components.photopicker
 
 import android.content.Context
 import android.net.Uri
@@ -43,7 +43,7 @@ fun PhotoPicker() {
                     val parcelFileDescriptor = context.contentResolver.openFileDescriptor(uri, "r")
                     parcelFileDescriptor?.use { pfd ->
                         val inputStream = ParcelFileDescriptor.AutoCloseInputStream(pfd)
-                        val fileNameFromUri = getFileNameFromUri(context, uri)?:""
+                        val fileNameFromUri = getFileNameFromUri(context, uri) ?:""
                         val file = File(context.cacheDir,fileNameFromUri)
                         file.outputStream().use { output ->
                             inputStream.copyTo(output)

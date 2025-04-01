@@ -1,5 +1,6 @@
 package com.elan.media.server.android.data.client
 
+import com.elan.media.server.android.data.api.MediaServiceAudioAPI
 import com.elan.media.server.android.data.api.MediaServiceFilesAPI
 import com.elan.media.server.android.data.api.MediaServiceThumbnailAPI
 import retrofit2.Retrofit
@@ -22,5 +23,9 @@ object MediaServiceClient {
 
     val mediaServiceThumbnailAPI: MediaServiceThumbnailAPI by lazy {
         retrofit.create(MediaServiceThumbnailAPI::class.java)
+    }
+
+    val mediaServiceAudioAPI: MediaServiceAudioAPI by lazy {
+        retrofit.create(MediaServiceAudioAPI::class.java)
     }
 }

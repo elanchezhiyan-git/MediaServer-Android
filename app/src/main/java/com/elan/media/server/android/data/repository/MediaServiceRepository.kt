@@ -7,6 +7,7 @@ import com.elan.media.server.android.data.model.AudioDTO
 import com.elan.media.server.android.data.model.FileDto
 import com.elan.media.server.android.data.model.ThumbnailDTO
 import com.elan.media.server.android.data.model.UploadResponse
+import com.elan.media.server.android.data.model.VideoDTO
 import okhttp3.MultipartBody
 
 class MediaServiceRepository {
@@ -16,6 +17,8 @@ class MediaServiceRepository {
     private val mediaServiceThumbnailAPI = MediaServiceClient.mediaServiceThumbnailAPI
 
     private val mediaServiceAudioAPI = MediaServiceClient.mediaServiceAudioAPI
+
+    private val mediaServiceVideoAPI = MediaServiceClient.mediaServiceVideoAPI
 
     suspend fun getFiles() : List<FileDto> {
         return mediaServiceFilesAPI.getFiles(" ", null);
@@ -43,6 +46,12 @@ class MediaServiceRepository {
         val audioDTO = mediaServiceAudioAPI.getAudio(id)
         Log.d("API Response", audioDTO.url.orEmpty())
         return audioDTO
+    }
+
+    suspend fun getVideo(id: String) : VideoDTO {
+        val videoDto = mediaServiceVideoAPI.getVideo(id)
+        Log.d("API Response", videoDto.url.orEmpty())
+        return videoDto
     }
 
 }

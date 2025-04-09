@@ -23,6 +23,7 @@ import androidx.navigation.compose.composable
 import com.elan.media.server.android.R
 import com.elan.media.server.android.ui.common.CallNavigationMenuItemComposable
 import com.elan.media.server.android.ui.common.EMSNavController
+import com.elan.media.server.android.ui.common.GlobalContext
 import com.elan.media.server.android.ui.common.NavigationItem
 import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_PICKER
 import com.elan.media.server.android.ui.common.NavigationType
@@ -38,6 +39,7 @@ fun MainView(
     currentSelectedItemId: MutableState<String>
 ) {
     var showNavigationBar by remember { mutableStateOf(true) }
+    var showPlayer by remember { mutableStateOf(false) }
     Scaffold (
         topBar = { if (showNavigationBar) GetTopAppBar(scope, drawerState) else GetSubMenuTopAppBar() },
 
@@ -48,6 +50,11 @@ fun MainView(
                     .verticalScroll(rememberScrollState())
             ) {
                 navController.addOnDestinationChangedListener{ _,destination,_ ->
+
+                    if (currentSelectedItemId.value == NavigationItem.MUSIC_PLAYER.name) {
+                       showPlayer = GlobalContext.isMusicPlaying
+                    }
+
                     for (it in NavigationItem.entries) {
                         if (destination.route == it.name) {
                             showNavigationBar = when (it.navigationType) {
@@ -86,6 +93,12 @@ fun MainView(
                     tint = LocalContentColor.current
                 )
             }
-        }
+        },
+
+//        bottomBar = {
+//            if (showPlayer) {
+//                MusicPlayerMini()
+//            }
+//        }
     )
 }

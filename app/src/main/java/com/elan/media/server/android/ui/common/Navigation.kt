@@ -25,10 +25,10 @@ import com.elan.media.server.android.ui.common.NavigationItem.MUSIC
 import com.elan.media.server.android.ui.common.NavigationItem.MUSIC_PLAYER
 import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_PICKER
 import com.elan.media.server.android.ui.components.photopicker.PhotoPicker
-import com.elan.media.server.android.ui.views.common.MovieDescription
 import com.elan.media.server.android.ui.views.downloads.Downloads
 import com.elan.media.server.android.ui.views.favourites.Favourites
 import com.elan.media.server.android.ui.views.home.Home
+import com.elan.media.server.android.ui.views.movies.MovieDescription
 import com.elan.media.server.android.ui.views.movies.Movies
 import com.elan.media.server.android.ui.views.music.Music
 import com.elan.media.server.android.ui.views.music.MusicPlayerScreen3
@@ -102,11 +102,13 @@ fun GetIcon(navigationItem: NavigationItem): Unit? {
     }
     return function
 }
+
 object EMSNavController {
 
     private lateinit var navigation: (NavigationItem) -> Unit
     private lateinit var popBack: () -> Boolean
-    private lateinit var retrieveFunction: (String) -> Any?
+    private lateinit var retrievePreviousStateFunction: (String) -> Any?
+    private lateinit var retrieveCurrentStateFunction: (String) -> Any?
     private lateinit var storeFunction: (String, Any) -> Any?
 
     private fun execute(navigationEvent: NavigationItem) {
@@ -121,8 +123,12 @@ object EMSNavController {
         this.popBack = popBack
     }
 
-    private fun setRetrieveFunction(retrieveFunction: (String) -> Any?) {
-        this.retrieveFunction = retrieveFunction
+    private fun setRetrieveCurrentStateFunction(retrieveCurrentStateFunction: (String) -> Any?) {
+        this.retrieveCurrentStateFunction = retrieveCurrentStateFunction
+    }
+
+    private fun setRetrievePreviousStateFunction(retrievePreviousStateFunction: (String) -> Any?) {
+        this.retrievePreviousStateFunction = retrievePreviousStateFunction
     }
 
     private fun setStoreFunction(storeFunction: (String, Any) -> Unit?) {
@@ -144,10 +150,18 @@ object EMSNavController {
         }
     }
 
-    fun retrieveMultipleValues(keys: List<String>): Map<String, Any> {
+    fun retrievePreviousStateMultipleValues(keys: List<String>): Map<String, Any> {
         val values = mutableMapOf<String, Any>()
         for (key in keys) {
-            values[key] = retrieveValueById(key)!!
+            values[key] = retrievePreviousStateValueById(key)!!
+        }
+        return values
+    }
+
+    fun retrieveCurrentStateMultipleValues(keys: List<String>): Map<String, Any> {
+        val values = mutableMapOf<String, Any>()
+        for (key in keys) {
+            values[key] = retrieveCurrentStateValueById(key)!!
         }
         return values
     }
@@ -156,8 +170,12 @@ object EMSNavController {
         storeFunction.invoke(id, value);
     }
 
-    fun retrieveValueById(id: String): Any? {
-        return retrieveFunction.invoke(id)
+    fun retrievePreviousStateValueById(id: String): Any? {
+        return retrievePreviousStateFunction.invoke(id)
+    }
+
+    fun retrieveCurrentStateValueById(id: String): Any? {
+        return retrieveCurrentStateFunction.invoke(id)
     }
 
     @Composable
@@ -194,22 +212,30 @@ object EMSNavController {
             }
         }
 
-        val retrieveModelById = remember {
-            { id: String ->
-                navController.previousBackStackEntry?.savedStateHandle?.get<Any>(id)
-            }
-        }
-
         val storeModelById = remember {
             { modelId: String, value: Any ->
                 navController.currentBackStackEntry?.savedStateHandle?.set(modelId, value)
             }
         }
 
+
+        val retrievePreviousModelById = remember {
+            { id: String ->
+                navController.previousBackStackEntry?.savedStateHandle?.get<Any>(id)
+            }
+        }
+
+        val retrieveCurrentModelById = remember {
+            { id: String ->
+                navController.currentBackStackEntry?.savedStateHandle?.get<Any>(id)
+            }
+        }
+
         DisposableEffect(Unit) {
             setNavigation(navigation)
             setStoreFunction(storeModelById)
-            setRetrieveFunction(retrieveModelById)
+            setRetrievePreviousStateFunction(retrievePreviousModelById)
+            setRetrieveCurrentStateFunction(retrieveCurrentModelById)
             setPopBack(popBack)
             onDispose {
 

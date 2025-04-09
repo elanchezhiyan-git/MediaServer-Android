@@ -51,7 +51,12 @@ fun Card(file: FileDto?, viewModel: ThumbnailViewModel) {
         androidx.compose.material3.Card(
             Modifier.clickable {
                 when (category) {
-                    Category.MOVIES -> EMSNavController.navigateTo(NavigationItem.MOVIE_DESCRIPTION)
+                    Category.MOVIES -> {
+                        EMSNavController.storeValueById("file", file)
+                        thumbnail?.data?.let { Base64.decode(it, Base64.DEFAULT) }
+                            ?.let { EMSNavController.storeValueById("thumbnail", it) }
+                        EMSNavController.navigateTo(NavigationItem.MOVIE_DESCRIPTION)
+                    }
                     Category.MUSIC -> {
                         EMSNavController.storeValueById("file", file)
                         thumbnail?.data?.let { Base64.decode(it, Base64.DEFAULT) }

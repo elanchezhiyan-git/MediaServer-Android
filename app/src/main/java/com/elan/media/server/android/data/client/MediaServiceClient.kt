@@ -1,9 +1,8 @@
 package com.elan.media.server.android.data.client
 
-import com.elan.media.server.android.data.api.MediaServiceAudioAPI
 import com.elan.media.server.android.data.api.MediaServiceFilesAPI
+import com.elan.media.server.android.data.api.MediaServiceMediaAPI
 import com.elan.media.server.android.data.api.MediaServiceThumbnailAPI
-import com.elan.media.server.android.data.api.MediaServiceVideoAPI
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -26,11 +25,7 @@ object MediaServiceClient {
         retrofit.create(MediaServiceThumbnailAPI::class.java)
     }
 
-    val mediaServiceAudioAPI: MediaServiceAudioAPI by lazy {
-        retrofit.create(MediaServiceAudioAPI::class.java)
-    }
-
-    val mediaServiceVideoAPI: MediaServiceVideoAPI by lazy {
-        retrofit.create(MediaServiceVideoAPI::class.java)
+    val mediaServiceMediaAPI: MediaServiceMediaAPI by lazy {
+        retrofit.create(MediaServiceMediaAPI::class.java)
     }
 }

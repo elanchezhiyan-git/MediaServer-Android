@@ -3,11 +3,10 @@ package com.elan.media.server.android.data.repository
 import android.util.Log
 import com.elan.media.server.android.data.client.MediaServiceClient
 import com.elan.media.server.android.data.constants.Category
-import com.elan.media.server.android.data.model.AudioDTO
+import com.elan.media.server.android.data.model.MediaDto
 import com.elan.media.server.android.data.model.FileDto
 import com.elan.media.server.android.data.model.ThumbnailDTO
 import com.elan.media.server.android.data.model.UploadResponse
-import com.elan.media.server.android.data.model.VideoDTO
 import okhttp3.MultipartBody
 
 class MediaServiceRepository {
@@ -16,9 +15,7 @@ class MediaServiceRepository {
 
     private val mediaServiceThumbnailAPI = MediaServiceClient.mediaServiceThumbnailAPI
 
-    private val mediaServiceAudioAPI = MediaServiceClient.mediaServiceAudioAPI
-
-    private val mediaServiceVideoAPI = MediaServiceClient.mediaServiceVideoAPI
+    private val mediaServiceMediaAPI = MediaServiceClient.mediaServiceMediaAPI
 
     suspend fun getFiles() : List<FileDto> {
         return mediaServiceFilesAPI.getFiles(" ", null);
@@ -42,16 +39,22 @@ class MediaServiceRepository {
         return thumbnail
     }
 
-    suspend fun getAudio(id: String) : AudioDTO {
-        val audioDTO = mediaServiceAudioAPI.getAudio(id)
-        Log.d("API Response", audioDTO.url.orEmpty())
-        return audioDTO
+    suspend fun getAudio(id: String) : MediaDto {
+        val mediaDto = mediaServiceMediaAPI.getAudio(id)
+        Log.d("API Response", mediaDto.url.orEmpty())
+        return mediaDto
     }
 
-    suspend fun getVideo(id: String) : VideoDTO {
-        val videoDto = mediaServiceVideoAPI.getVideo(id)
-        Log.d("API Response", videoDto.url.orEmpty())
-        return videoDto
+    suspend fun getVideo(id: String) : MediaDto {
+        val mediaDto = mediaServiceMediaAPI.getVideo(id)
+        Log.d("API Response", mediaDto.url.orEmpty())
+        return mediaDto
+    }
+
+    suspend fun getImage(id: String) : MediaDto {
+        val mediaDto = mediaServiceMediaAPI.getImage(id)
+        Log.d("API Response", mediaDto.url.orEmpty())
+        return mediaDto
     }
 
 }

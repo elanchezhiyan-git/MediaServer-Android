@@ -6,7 +6,6 @@ import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -18,6 +17,7 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -30,7 +30,7 @@ import com.elan.media.server.android.ui.common.NavigationItem
 
 
 @Composable
-fun Card(file: FileDto?, viewModel: ThumbnailViewModel) {
+fun CustomCard(file: FileDto?, viewModel: ThumbnailViewModel) {
     val thumbnail = viewModel.thumbnails[file?.thumbnail]
 
     val bitmap = produceState<Bitmap?>(initialValue = null, thumbnail) {
@@ -63,6 +63,10 @@ fun Card(file: FileDto?, viewModel: ThumbnailViewModel) {
                             ?.let { EMSNavController.storeValueById("thumbnail", it) }
                         EMSNavController.navigateTo(NavigationItem.MUSIC_PLAYER)
                     }
+                    Category.PHOTOS -> {
+                        EMSNavController.storeValueById("file", file)
+                        EMSNavController.navigateTo(NavigationItem.PHOTO_VIEWER)
+                    }
                     else -> EMSNavController.navigateTo(NavigationItem.MOVIE_DESCRIPTION)
                 }
             }) {
@@ -72,31 +76,36 @@ fun Card(file: FileDto?, viewModel: ThumbnailViewModel) {
                         painter = painterResource(R.drawable.photo_filled),
                         contentDescription = "Play Icon", Modifier
                             .height(100.dp)
-                            .width(200.dp)
+                            .width(200.dp),
+                        contentScale = ContentScale.Fit
                     )
                     Category.MOVIES -> Image(
                         painter = painterResource(R.drawable.video_filled),
                         contentDescription = "Play Icon", Modifier
                             .height(100.dp)
-                            .width(200.dp)
+                            .width(200.dp),
+                        contentScale = ContentScale.Fit
                     )
                     Category.MUSIC -> Image(
                         painter = painterResource(R.drawable.music_filled),
                         contentDescription = "Play Icon", Modifier
                             .height(100.dp)
-                            .width(200.dp)
+                            .width(200.dp),
+                        contentScale = ContentScale.Fit
                     )
                     Category.PHOTOS -> Image(
                         painter = painterResource(R.drawable.photo_filled),
                         contentDescription = "Play Icon", Modifier
                             .height(100.dp)
-                            .width(200.dp)
+                            .width(200.dp),
+                        contentScale = ContentScale.Fit
                     )
                     else -> Image(
                         painter = painterResource(R.drawable.photo_filled),
                         contentDescription = "Play Icon", Modifier
                             .height(100.dp)
-                            .width(200.dp)
+                            .width(200.dp),
+                        contentScale = ContentScale.Fit
                     )
                 }
             } else {
@@ -105,8 +114,8 @@ fun Card(file: FileDto?, viewModel: ThumbnailViewModel) {
                     contentDescription = "Loaded Image",
                     modifier = Modifier
                         .width(200.dp)
-                        .height(100.dp)
-                        .fillMaxSize()
+                        .height(100.dp),
+                    contentScale = ContentScale.Crop
                 )
             }
         }

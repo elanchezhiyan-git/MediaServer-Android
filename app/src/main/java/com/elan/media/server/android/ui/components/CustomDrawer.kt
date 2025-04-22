@@ -1,7 +1,7 @@
 package com.elan.media.server.android.ui.components
 
-import android.content.Context
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -80,7 +80,8 @@ fun CustomDrawer(
         },
         content = {
             MainView(scope = scope, drawerState = drawerState, navController = navController, currentSelectedItemId)
-        }
+        },
+        modifier = Modifier.fillMaxSize()
     )
 
 

@@ -1,6 +1,6 @@
 package com.elan.media.server.android.data.model
 
-class AudioDTO {
+class MediaDto {
 
     var id: String? = null
 

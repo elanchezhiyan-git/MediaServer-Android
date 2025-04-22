@@ -98,4 +98,5 @@ dependencies {
 
     // Permissions
     implementation(libs.accompanist.permissions)
+    implementation(libs.accompanist.permissions.zoomable)
 }

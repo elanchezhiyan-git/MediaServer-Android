@@ -1,5 +1,6 @@
 [versions]
-accompanistPermissions = "0.33.1-alpha"
+accompanistPermissions = "0.37.2"
+accompanistPermissionsZoomable = "0.27.0"
 agp = "8.8.0"
 coilCompose = "2.4.0"
 converterGson = "2.9.0"
@@ -27,6 +28,7 @@ ui = "1.6.1"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+accompanist-permissions-zoomable = { module = "com.google.accompanist:accompanist-zoomable", version.ref = "accompanistPermissionsZoomable" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }

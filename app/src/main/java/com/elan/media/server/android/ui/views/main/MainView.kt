@@ -1,6 +1,7 @@
 package com.elan.media.server.android.ui.views.main
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -25,7 +26,6 @@ import com.elan.media.server.android.ui.common.CallNavigationMenuItemComposable
 import com.elan.media.server.android.ui.common.EMSNavController
 import com.elan.media.server.android.ui.common.GlobalContext
 import com.elan.media.server.android.ui.common.NavigationItem
-import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_PICKER
 import com.elan.media.server.android.ui.common.NavigationType
 import com.elan.media.server.android.ui.components.GetSubMenuTopAppBar
 import com.elan.media.server.android.ui.components.GetTopAppBar
@@ -40,6 +40,8 @@ fun MainView(
 ) {
     var showNavigationBar by remember { mutableStateOf(true) }
     var showPlayer by remember { mutableStateOf(false) }
+    var isPhotoViewer by remember { mutableStateOf(false) }
+    var isUpload by remember { mutableStateOf(false) }
     Scaffold (
         topBar = { if (showNavigationBar) GetTopAppBar(scope, drawerState) else GetSubMenuTopAppBar() },
 
@@ -47,7 +49,11 @@ fun MainView(
             Column(
                 modifier = Modifier
                     .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize()
+                    .then(
+                        if (!isPhotoViewer) Modifier.verticalScroll(rememberScrollState())
+                        else Modifier
+                    )
             ) {
                 navController.addOnDestinationChangedListener{ _,destination,_ ->
 
@@ -66,6 +72,12 @@ fun MainView(
                             if (it.navigationType == NavigationType.MAIN_MENU) {
                                 currentSelectedItemId.value = it.name
                             }
+
+                            isUpload = (it.navigationType == NavigationType.SUB_MENU
+                                    || it.navigationType == NavigationType.MAIN_MENU)
+
+                            isPhotoViewer = it == NavigationItem.PHOTO_VIEWER
+
                         }
                     }
                 }
@@ -84,14 +96,16 @@ fun MainView(
         },
 
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                EMSNavController.navigateTo(PHOTO_PICKER)
-            }) {
-                Icon(
-                    painter = painterResource(R.drawable.upload_filled),
-                    contentDescription = "Play Icon",
-                    tint = LocalContentColor.current
-                )
+            if (!isPhotoViewer) {
+                FloatingActionButton(onClick = {
+                    EMSNavController.navigateTo(NavigationItem.PHOTO_PICKER)
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.upload_filled),
+                        contentDescription = "Play Icon",
+                        tint = LocalContentColor.current
+                    )
+                }
             }
         },
 

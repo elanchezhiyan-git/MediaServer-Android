@@ -24,7 +24,9 @@ import com.elan.media.server.android.ui.common.NavigationItem.MOVIE_DESCRIPTION
 import com.elan.media.server.android.ui.common.NavigationItem.MUSIC
 import com.elan.media.server.android.ui.common.NavigationItem.MUSIC_PLAYER
 import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_PICKER
+import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_VIEWER
 import com.elan.media.server.android.ui.components.photopicker.PhotoPicker
+import com.elan.media.server.android.ui.components.photoviewer.PhotoViewer
 import com.elan.media.server.android.ui.views.downloads.Downloads
 import com.elan.media.server.android.ui.views.favourites.Favourites
 import com.elan.media.server.android.ui.views.home.Home
@@ -42,7 +44,8 @@ enum class NavigationItem(val navigationType: NavigationType) {
     MUSIC_PLAYER(NavigationType.SUB_MENU),
     DOWNLOADS(NavigationType.MAIN_MENU),
     MOVIE_DESCRIPTION(NavigationType.FULL_SCREEN),
-    PHOTO_PICKER(NavigationType.POP_OVER);
+    PHOTO_PICKER(NavigationType.POP_OVER),
+    PHOTO_VIEWER(NavigationType.FULL_SCREEN);
 
     companion object {
         fun getMainMenuItems(): List<NavigationItem> {
@@ -65,6 +68,7 @@ fun CallNavigationMenuItemComposable(navigationItem: NavigationItem) {
         DOWNLOADS -> Downloads()
         MOVIE_DESCRIPTION -> MovieDescription()
         PHOTO_PICKER -> PhotoPicker()
+        PHOTO_VIEWER -> PhotoViewer()
     }
     return function
 }

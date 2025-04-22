@@ -12,6 +12,10 @@ import androidx.media3.common.MimeTypes
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -27,7 +31,10 @@ fun VideoPlayer(url: String, modifier: Modifier = Modifier) {
 
     DisposableEffect(exoPlayer) {
         onDispose {
-            exoPlayer.release()
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(200) // let UI settle before releasing
+                exoPlayer.release()
+            }
         }
     }
 

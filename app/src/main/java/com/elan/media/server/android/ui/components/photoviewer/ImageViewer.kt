@@ -83,6 +83,7 @@ fun FullscreenImageViewer(imageUrl: String) {
     Box(
         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
+        Modifier.align(Alignment.TopStart)
         var scale by remember { mutableStateOf(1f) }
         var offset by remember { mutableStateOf(Offset.Zero) }
         var imageSize by remember { mutableStateOf(IntSize.Zero) }

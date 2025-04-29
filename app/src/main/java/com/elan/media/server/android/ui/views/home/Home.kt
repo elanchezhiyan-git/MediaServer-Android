@@ -25,7 +25,7 @@ fun Home() {
     val music by viewModel.musicFiles.observeAsState(emptyList())
     val photos by viewModel.photoFiles.observeAsState(emptyList())
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = true) {
         viewModel.getFiles(Category.RECENTLY_ADDED)
         viewModel.getFiles(Category.MOVIES)
         viewModel.getFiles(Category.MUSIC)

@@ -28,6 +28,7 @@ import com.elan.media.server.android.ui.common.GlobalContext
 import com.elan.media.server.android.ui.common.NavigationItem
 import com.elan.media.server.android.ui.common.NavigationType
 import com.elan.media.server.android.ui.components.GetSubMenuTopAppBar
+import com.elan.media.server.android.ui.components.GetSubMenuTransparentTopAppBar
 import com.elan.media.server.android.ui.components.GetTopAppBar
 import kotlinx.coroutines.CoroutineScope
 
@@ -39,11 +40,14 @@ fun MainView(
     currentSelectedItemId: MutableState<String>
 ) {
     var showNavigationBar by remember { mutableStateOf(true) }
+    var showSubMenuNavigationBar by remember { mutableStateOf(true) }
     var showPlayer by remember { mutableStateOf(false) }
     var isPhotoViewer by remember { mutableStateOf(false) }
+    var globalTopBar = GlobalContext.isPhotoViewer
     var isUpload by remember { mutableStateOf(false) }
+
     Scaffold (
-        topBar = { if (showNavigationBar) GetTopAppBar(scope, drawerState) else GetSubMenuTopAppBar() },
+        topBar = { if (showSubMenuNavigationBar)  GetSubMenuTopAppBar() else if (globalTopBar && isPhotoViewer) GetSubMenuTransparentTopAppBar() else if (showNavigationBar) GetTopAppBar(scope, drawerState) },
 
         content = { innerPadding ->
             Column(
@@ -63,12 +67,11 @@ fun MainView(
 
                     for (it in NavigationItem.entries) {
                         if (destination.route == it.name) {
-                            showNavigationBar = when (it.navigationType) {
-                                NavigationType.MAIN_MENU -> true
-                                NavigationType.FULL_SCREEN -> false
-                                NavigationType.SUB_MENU -> true
-                                NavigationType.POP_OVER -> false
-                            }
+
+                            showNavigationBar = it.navigationType == NavigationType.SUB_MENU || it.navigationType == NavigationType.MAIN_MENU
+
+                            showSubMenuNavigationBar = it.navigationType == NavigationType.SUB_MENU
+
                             if (it.navigationType == NavigationType.MAIN_MENU) {
                                 currentSelectedItemId.value = it.name
                             }
@@ -113,6 +116,7 @@ fun MainView(
 //            if (showPlayer) {
 //                MusicPlayerMini()
 //            }
-//        }
+//
+
     )
 }

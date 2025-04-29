@@ -90,7 +90,7 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.ui)
-    implementation(libs.androidx.material)
+//    implementation(libs.androidx.material)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     // Media3 for audio playback
@@ -98,5 +98,5 @@ dependencies {
 
     // Permissions
     implementation(libs.accompanist.permissions)
-    implementation(libs.accompanist.permissions.zoomable)
+//    implementation(libs.accompanist.permissions.zoomable)
 }

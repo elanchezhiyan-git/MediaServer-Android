@@ -137,13 +137,19 @@ fun MusicPlayer(audioUrl: String, modifier: Modifier = Modifier) {
         .padding(8.dp)
         .fillMaxSize(1f), verticalArrangement = Arrangement.Center) {
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         if (thumbnailByteArray == null) {
             Image(painter = painterResource(R.drawable.music_filled), contentDescription = "Music Symbol",Modifier
                 .size(250.dp)
                 .align(Alignment.CenterHorizontally))
         } else {
-            Image(bitmap = thumbnail!!.asImageBitmap(), contentDescription = "Thumbnail")
+            Image(bitmap = thumbnail!!.asImageBitmap(), contentDescription = "Thumbnail",Modifier
+                .size(250.dp)
+                .align(Alignment.CenterHorizontally))
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(text = file?.fileName.orEmpty(), fontSize = 24.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
 

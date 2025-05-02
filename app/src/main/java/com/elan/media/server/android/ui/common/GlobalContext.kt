@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 
 object GlobalContext {
 
+   var serverAddress: String = ""
    var isMusicPlaying: Boolean = false
    var isPhotoViewer by mutableStateOf(true)
    var innerPadding by mutableIntStateOf(0)

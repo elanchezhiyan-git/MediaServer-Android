@@ -15,12 +15,8 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import com.elan.media.server.android.ui.components.CustomDrawer
 import com.elan.media.server.android.ui.theme.MediaServerAndroidTheme
@@ -35,17 +31,17 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         // Hide status bar (notification bar)
-        val windowInsetsControllerCompat = WindowInsetsControllerCompat(window, window.decorView)
+//        val windowInsetsControllerCompat = WindowInsetsControllerCompat(window, window.decorView)
 
-        window.statusBarColor = Color(0f, 0f, 0f, 0.5f).toArgb() // 50% transparent black
-        window.isNavigationBarContrastEnforced = false
+//        window.statusBarColor = Color(0f, 0f, 0f, 0.5f).toArgb() // 50% transparent black
+//        window.isNavigationBarContrastEnforced = false
 
-        windowInsetsControllerCompat.let {
-            it.hide(WindowInsetsCompat.Type.statusBars())
+//        windowInsetsControllerCompat.let {
+//            it.hide(WindowInsetsCompat.Type.statusBars())
 //            it.hide(WindowInsetsCompat.Type.displayCutout())
 //            it.systemBarsBehavior =
 //                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
+//        }
         setContent {
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
             val scope = rememberCoroutineScope()
@@ -59,8 +55,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            MediaServerAndroidTheme ()  {
-                // A surface container using the 'background' color from the theme
+            MediaServerAndroidTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     Column (Modifier.fillMaxSize(1f)) {
                         CustomDrawer(drawerState, scope, navController)

@@ -124,7 +124,9 @@ fun GetSubMenuTransparentTopAppBar() {
             }
         },
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+
+            }) {
                 Icon(
                     imageVector = Icons.Filled.MoreVert,
                     contentDescription = "More actions",

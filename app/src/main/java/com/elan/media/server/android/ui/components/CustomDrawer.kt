@@ -39,41 +39,51 @@ fun CustomDrawer(
             Modifier.fillMaxWidth(0.5f)
             ModalDrawerSheet (modifier = Modifier.widthIn(0.dp, screenWidth.dp)) {
 
-                Text("E - Media Server", modifier = Modifier.padding(16.dp))
-                Divider()
-                Column (Modifier.padding(0.dp,8.dp)) {
-                    CustomNavigationDrawerItem(
-                        scope,
-                        drawerState,
-                        currentSelectedItemId,
-                        NavigationItem.HOME
-                    )
-                    CustomNavigationDrawerItem(
-                        scope,
-                        drawerState,
-                        currentSelectedItemId,
-                        NavigationItem.FAVOURITES
-                    )
+                Column {
+                    Text("E - Media Server", modifier = Modifier.padding(16.dp))
+                    Divider()
+                    Column(Modifier.padding(0.dp, 8.dp)) {
+                        CustomNavigationDrawerItem(
+                            scope,
+                            drawerState,
+                            currentSelectedItemId,
+                            NavigationItem.HOME
+                        )
+                        CustomNavigationDrawerItem(
+                            scope,
+                            drawerState,
+                            currentSelectedItemId,
+                            NavigationItem.FAVOURITES
+                        )
+                    }
+                    Divider()
+                    Column(Modifier.padding(0.dp, 16.dp)) {
+                        CustomNavigationDrawerItem(
+                            scope,
+                            drawerState,
+                            currentSelectedItemId,
+                            NavigationItem.MOVIES
+                        )
+                        CustomNavigationDrawerItem(
+                            scope,
+                            drawerState,
+                            currentSelectedItemId,
+                            NavigationItem.MUSIC
+                        )
+                        CustomNavigationDrawerItem(
+                            scope,
+                            drawerState,
+                            currentSelectedItemId,
+                            NavigationItem.DOWNLOADS
+                        )
+                    }
                 }
-                Divider()
-                Column (Modifier.padding(0.dp,16.dp)) {
+                Column {
                     CustomNavigationDrawerItem(
                         scope,
                         drawerState,
                         currentSelectedItemId,
-                        NavigationItem.MOVIES
-                    )
-                    CustomNavigationDrawerItem(
-                        scope,
-                        drawerState,
-                        currentSelectedItemId,
-                        NavigationItem.MUSIC
-                    )
-                    CustomNavigationDrawerItem(
-                        scope,
-                        drawerState,
-                        currentSelectedItemId,
-                        NavigationItem.DOWNLOADS
+                        NavigationItem.SERVER_LOGIN
                     )
                 }
             }

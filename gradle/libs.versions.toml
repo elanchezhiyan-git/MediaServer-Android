@@ -23,6 +23,12 @@ hilt = "2.49"
 ksp = "2.1.0-1.0.29"
 hiltNavigationCompose = "1.2.0"
 ui = "1.6.1"
+appcompat = "1.7.0"
+material = "1.4.0"
+annotation = "1.9.1"
+constraintlayout = "2.2.1"
+lifecycleLivedataKtx = "2.8.7"
+lifecycleViewmodelKtx = "2.8.7"
 
 
 
@@ -64,6 +70,12 @@ androidx-navigation-testing = { module = "androidx.navigation:navigation-testing
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 
 # For Media Player
 #androidx-media3-exoplayer = {module = "androidx.media3", name = "media3-exoplayer", version.ref = "media3"}

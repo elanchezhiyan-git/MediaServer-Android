@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.elan.media.server.android.R
+import com.elan.media.server.android.ui.common.NavigationItem.ADD_SERVER
 import com.elan.media.server.android.ui.common.NavigationItem.DOWNLOADS
 import com.elan.media.server.android.ui.common.NavigationItem.FAVOURITES
 import com.elan.media.server.android.ui.common.NavigationItem.HOME
@@ -25,6 +26,8 @@ import com.elan.media.server.android.ui.common.NavigationItem.MUSIC
 import com.elan.media.server.android.ui.common.NavigationItem.MUSIC_PLAYER
 import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_PICKER
 import com.elan.media.server.android.ui.common.NavigationItem.PHOTO_VIEWER
+import com.elan.media.server.android.ui.common.NavigationItem.SERVER_LOGIN
+import com.elan.media.server.android.ui.common.NavigationItem.SERVER_MANAGER
 import com.elan.media.server.android.ui.components.photopicker.PhotoPicker
 import com.elan.media.server.android.ui.components.photoviewer.PhotoViewer
 import com.elan.media.server.android.ui.views.downloads.Downloads
@@ -34,6 +37,9 @@ import com.elan.media.server.android.ui.views.movies.MovieDescription
 import com.elan.media.server.android.ui.views.movies.Movies
 import com.elan.media.server.android.ui.views.music.Music
 import com.elan.media.server.android.ui.views.music.MusicPlayerScreen3
+import com.elan.media.server.android.ui.views.server.AddServer
+import com.elan.media.server.android.ui.views.server.ServerLogin
+import com.elan.media.server.android.ui.views.server.ServerManager
 
 enum class NavigationItem(val navigationType: NavigationType) {
 
@@ -45,7 +51,10 @@ enum class NavigationItem(val navigationType: NavigationType) {
     DOWNLOADS(NavigationType.MAIN_MENU),
     MOVIE_DESCRIPTION(NavigationType.FULL_SCREEN),
     PHOTO_PICKER(NavigationType.POP_OVER),
-    PHOTO_VIEWER(NavigationType.FULL_SCREEN);
+    PHOTO_VIEWER(NavigationType.FULL_SCREEN),
+    SERVER_MANAGER(NavigationType.MAIN_MENU),
+    ADD_SERVER(NavigationType.MAIN_MENU),
+    SERVER_LOGIN(NavigationType.MAIN_MENU);
 
     companion object {
         fun getMainMenuItems(): List<NavigationItem> {
@@ -69,6 +78,9 @@ fun CallNavigationMenuItemComposable(navigationItem: NavigationItem) {
         MOVIE_DESCRIPTION -> MovieDescription()
         PHOTO_PICKER -> PhotoPicker()
         PHOTO_VIEWER -> PhotoViewer()
+        SERVER_LOGIN -> ServerLogin()
+        SERVER_MANAGER -> ServerManager()
+        ADD_SERVER -> AddServer()
     }
     return function
 }
